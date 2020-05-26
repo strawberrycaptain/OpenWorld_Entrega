@@ -5,7 +5,8 @@ using UnityEngine;
 public class ColorBullet : MonoBehaviour
 {
     public Renderer visual;
-    public float time = 5;
+    public float time = 4;
+
 
     void Start()
     {

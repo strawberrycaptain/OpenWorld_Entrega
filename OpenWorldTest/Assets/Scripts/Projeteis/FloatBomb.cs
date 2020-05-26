@@ -10,7 +10,7 @@ public class FloatBomb : MonoBehaviour
 
     void Start()
     {
-        Invoke("Explode", 3);
+        Invoke("Explode", 1);
     }
 
 

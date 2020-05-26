@@ -5,6 +5,7 @@ using UnityEngine;
 public class ForceBullets : MonoBehaviour
 {
     Rigidbody rdb;
+    public GameObject fxPrefab;
 
     void Start()
     {
@@ -25,9 +26,8 @@ public class ForceBullets : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-      
-
-        
+        Instantiate(fxPrefab, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 
 }
