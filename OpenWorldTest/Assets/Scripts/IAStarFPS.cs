@@ -7,15 +7,24 @@ public class IAStarFPS : MonoBehaviour
 {
     public GameObject target;
     public NavMeshAgent agent;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float minDistance;
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
     void Update()
     {
         agent.destination = target.transform.position;
+
+        float distancePlayerEnemy = Vector3.Distance(transform.position, target.transform.position);
+        if (distancePlayerEnemy <= minDistance)
+        {
+            agent.isStopped = true;
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
     }
 }

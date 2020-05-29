@@ -2,22 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class SimpleBullet : MonoBehaviour
 {
-    public float time = 1.5f;
-    Rigidbody rdb;
-
-    void Start()
-    {
-        rdb = GetComponent<Rigidbody>();
-        Destroy(gameObject, time);
-    }
-
-    void FixedUpdate()
-    {
-        rdb.AddForce(transform.forward, ForceMode.Impulse);
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")

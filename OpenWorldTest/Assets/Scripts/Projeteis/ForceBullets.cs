@@ -26,8 +26,14 @@ public class ForceBullets : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            HP hp = collision.gameObject.GetComponent<HP>();
+            hp.health = hp.health - 20;
+        }
+
         Instantiate(fxPrefab, transform.position, transform.rotation);
-        Destroy(gameObject);
+   
     }
 
 }

@@ -5,9 +5,10 @@ using UnityEngine;
 public class StickyBomb : MonoBehaviour
 {
 
-    public float bombForce=1000;
+    public float bombForce = 1000;
     public GameObject fxPrefab;
     Rigidbody rdb;
+    public float time = 2;
 
     void Start()
     {
@@ -20,11 +21,11 @@ public class StickyBomb : MonoBehaviour
         Instantiate(fxPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
         RaycastHit[] hits;
-        hits=Physics.SphereCastAll(transform.position, 5, Vector3.up, 10);
+        hits = Physics.SphereCastAll(transform.position, 5, Vector3.up, 10);
 
         if (hits.Length > 0)
         {
-            foreach(RaycastHit hit in hits)
+            foreach (RaycastHit hit in hits)
             {
                 if (hit.rigidbody)
                 {
@@ -37,7 +38,13 @@ public class StickyBomb : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        rdb.isKinematic = true;
+        {
+            rdb.isKinematic = true;
+            if (collision.gameObject.tag == "Enemy")
+            {
+                HP hp = collision.gameObject.GetComponent<HP>();
+                hp.health = hp.health - 20;
+            }
+        }
     }
-
 }

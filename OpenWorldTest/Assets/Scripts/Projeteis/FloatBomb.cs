@@ -33,4 +33,13 @@ public class FloatBomb : MonoBehaviour
             }
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            HP hp = collision.gameObject.GetComponent<HP>();
+            hp.health = hp.health - 20;
+        }
+        Destroy(gameObject);
+    }
 }
