@@ -9,9 +9,10 @@ public class PlayerShoot : MonoBehaviour
     public GameObject target;
     void Update()
     {
-        //movimento de cabeca
+        /*
         float movx = Input.GetAxis("Mouse Y");
         transform.Rotate(new Vector3(-movx, 0, 0));
+        */
 
         if (Input.GetKey(KeyCode.Alpha1)) indexWeapon = 0;
         if (Input.GetKey(KeyCode.Alpha2)) indexWeapon = 1;
@@ -22,15 +23,15 @@ public class PlayerShoot : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha7)) indexWeapon = 6;
         if (Input.GetKey(KeyCode.Alpha8)) indexWeapon = 7;
         //se aperta tiro instancia o prefab
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire2"))
         {
             //instancia o objeto e guarda a referencia
             GameObject myprojectile=
-            Instantiate(projectilesPrefab[indexWeapon], transform.position+transform.forward,transform.rotation);
+            Instantiate(projectilesPrefab[indexWeapon], transform.position+ -transform.forward,transform.rotation);
        
 
             //adiciona uma forca no objeto
-            myprojectile.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+            myprojectile.GetComponent<Rigidbody>().AddForce(-transform.forward * 1000);
 
         }
     }   
