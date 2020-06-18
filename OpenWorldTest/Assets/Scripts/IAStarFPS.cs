@@ -17,6 +17,8 @@ public class IAStarFPS : MonoBehaviour
     {
         agent.destination = target.transform.position;
 
+        Vector3 LookAtPlayer = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+
         float distancePlayerEnemy = Vector3.Distance(transform.position, target.transform.position);
         if (distancePlayerEnemy <= minDistance)
         {

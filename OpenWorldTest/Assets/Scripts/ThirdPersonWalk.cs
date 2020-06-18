@@ -29,6 +29,7 @@ public class ThirdPersonWalk : MonoBehaviour
         transf = GetComponent<Transform>();
         transfCam = GameObject.FindWithTag("CameraPos").GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
+        swordCollider.enabled = false;
     }
 
     void FixedUpdate()
@@ -36,7 +37,7 @@ public class ThirdPersonWalk : MonoBehaviour
 
         bool jumpPress = Input.GetButtonDown("Jump");
         bool attackPress = Input.GetButtonDown("Fire1");
-        bool spellPress = Input.GetButtonDown("Fire2");
+        //bool spellPress = Input.GetButtonDown("Fire2");
 
         float mvtHor = Input.GetAxis("Horizontal");
         float mvtVer = Input.GetAxis("Vertical");
@@ -55,15 +56,12 @@ public class ThirdPersonWalk : MonoBehaviour
         isWalking = mvt.magnitude > 0.1f;
 
         //Attack!!
-        if (spellPress && !isJumping && !swordCollider.enabled)
-        {
-            animator.SetTrigger("Spell");
-
-        }
-
-        if (attackPress && !isJumping)
+        //Só ataca se não estiver pulando, e se o collider estiver desligado- também limita a quantidade de ataques
+        if (attackPress && !isJumping && !swordCollider.enabled)
         {
             animator.SetTrigger("Attacked");
+            swordCollider.enabled = true;
+            Invoke("DisableSwordCollision", 0.3f);
         }
 
         //Jump!!
@@ -103,5 +101,9 @@ public class ThirdPersonWalk : MonoBehaviour
                
             rb.velocity = Vector3.zero;
         }
+    }
+    void DisableSwordCollision()
+    {
+        swordCollider.enabled = false;
     }
 }

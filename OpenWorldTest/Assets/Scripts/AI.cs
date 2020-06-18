@@ -12,17 +12,22 @@ public class AI : MonoBehaviour
     }
 
     public StateIA state;
+
     NavMeshAgent agent;
     HP hp;
     HP hpPlayer;
     public float damage;
+
     public Animator animationController;
+
+    SoundList soundList;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         hp = GetComponent<HP>();
         hpPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<HP>();
+        soundList = GameObject.FindWithTag("MainCamera").GetComponent<SoundList>();
     }
 
     private void Update()
@@ -46,6 +51,7 @@ public class AI : MonoBehaviour
 
     public void EnemyAttack()
     {
-        hpPlayer.health = hpPlayer.health - damage;
+        hpPlayer.HealthDown(damage);
+        soundList.PlaySound(SoundList.SoundFX.EnemyAttack);
     }
 }
