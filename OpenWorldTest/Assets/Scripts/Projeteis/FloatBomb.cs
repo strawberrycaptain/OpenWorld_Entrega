@@ -8,16 +8,14 @@ public class FloatBomb : MonoBehaviour
     Rigidbody rdb;
     public float bombForce = 2;
 
-    void Start()
+    private void Start()
     {
-        Invoke("Explode", 1);
+        Invoke("Explode", 1f);
     }
-
 
     void Explode()
     {
         Instantiate(fxPrefab, transform.position, transform.rotation);
-        Destroy(gameObject);
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(transform.position, 5, Vector3.up, 10);
 
@@ -32,6 +30,7 @@ public class FloatBomb : MonoBehaviour
                 }
             }
         }
+        Destroy(gameObject);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -39,7 +38,7 @@ public class FloatBomb : MonoBehaviour
         {
             HP hp = collision.gameObject.GetComponent<HP>();
             hp.health = hp.health - 20;
+            Invoke("Explode", 1);
         }
-        Destroy(gameObject);
     }
 }

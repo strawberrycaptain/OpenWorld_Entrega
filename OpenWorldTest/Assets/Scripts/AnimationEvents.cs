@@ -34,4 +34,13 @@ public class AnimationEvents : MonoBehaviour
         soundList.PlaySound(SoundList.SoundFX.PlayerJump);
     }
 
+    public void Event_SFX4()
+    { 
+    soundList.PlaySound(SoundList.SoundFX.PlayerAttackSound);
+    }
+
+    public void Event_SFX5()
+    {
+        soundList.PlaySound(SoundList.SoundFX.Spell);
+    }
 }

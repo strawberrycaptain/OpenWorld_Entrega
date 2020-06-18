@@ -21,8 +21,11 @@ public class ThirdPersonWalk : MonoBehaviour
     public bool isWalking;
 
     public CapsuleCollider swordCollider;
+    public bool usedSpell;
 
     public static Vector3 groundPoint;
+
+    SoundList soundList;
 
     void Awake()
     {
@@ -30,6 +33,7 @@ public class ThirdPersonWalk : MonoBehaviour
         transfCam = GameObject.FindWithTag("CameraPos").GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         swordCollider.enabled = false;
+        soundList = GameObject.FindWithTag("MainCamera").GetComponent<SoundList>();
     }
 
     void FixedUpdate()
@@ -37,7 +41,7 @@ public class ThirdPersonWalk : MonoBehaviour
 
         bool jumpPress = Input.GetButtonDown("Jump");
         bool attackPress = Input.GetButtonDown("Fire1");
-        //bool spellPress = Input.GetButtonDown("Fire2");
+        bool spellPress = Input.GetButtonDown("Fire2");
 
         float mvtHor = Input.GetAxis("Horizontal");
         float mvtVer = Input.GetAxis("Vertical");
@@ -62,6 +66,15 @@ public class ThirdPersonWalk : MonoBehaviour
             animator.SetTrigger("Attacked");
             swordCollider.enabled = true;
             Invoke("DisableSwordCollision", 0.3f);
+        }
+
+        //Spell!!
+        //Só joga spell se não estiver pulando, não estiver atacando, e limita a quantidade de spells
+        if (spellPress && !isJumping && !swordCollider.enabled && !usedSpell)
+        {
+            usedSpell = true;
+            animator.SetTrigger("Spell");
+            Invoke("DisableSpell", 0.3f);
         }
 
         //Jump!!
@@ -105,5 +118,10 @@ public class ThirdPersonWalk : MonoBehaviour
     void DisableSwordCollision()
     {
         swordCollider.enabled = false;
+    }
+
+    void DisableSpell()
+    {
+        usedSpell = false;
     }
 }

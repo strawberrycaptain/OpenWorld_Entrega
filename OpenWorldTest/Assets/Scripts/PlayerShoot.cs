@@ -6,7 +6,7 @@ public class PlayerShoot : MonoBehaviour
 {
     public GameObject[] projectilesPrefab;
     int indexWeapon;
-    public GameObject target;
+    public Transform spellHand;
     void Update()
     {
         /*
@@ -25,14 +25,20 @@ public class PlayerShoot : MonoBehaviour
         //se aperta tiro instancia o prefab
         if (Input.GetButtonDown("Fire2"))
         {
-            //instancia o objeto e guarda a referencia
-            GameObject myprojectile=
-            Instantiate(projectilesPrefab[indexWeapon], transform.position+ -transform.forward,transform.rotation);
-       
-
-            //adiciona uma forca no objeto
-            myprojectile.GetComponent<Rigidbody>().AddForce(-transform.forward * 1000);
-
+            Invoke("Projectile", 0.5f);
         }
-    }   
+
+
+    }
+    void Projectile()
+    {
+        //instancia o objeto e guarda a referencia
+        GameObject myprojectile =
+        Instantiate(projectilesPrefab[indexWeapon], spellHand.position + spellHand.forward, spellHand.rotation);
+
+
+        //adiciona uma forca no objeto
+        myprojectile.GetComponent<Rigidbody>().AddForce(transform.forward * 500);
+
+    }
 }

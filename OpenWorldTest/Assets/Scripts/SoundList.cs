@@ -11,7 +11,9 @@ public class SoundList : MonoBehaviour
         PlayerDamage,
         EnemyDamage,
         PlayerJump,
-        Steps
+        Steps,
+        PlayerAttackSound,
+        Spell
     }
 
     public GameObject soundControllerPrefab;
