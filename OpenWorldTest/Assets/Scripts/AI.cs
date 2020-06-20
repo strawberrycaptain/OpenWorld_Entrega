@@ -9,6 +9,7 @@ public class AI : MonoBehaviour
     {
         Attacking,
         Walking,
+        Dead
     }
 
     public StateIA state;
@@ -22,7 +23,7 @@ public class AI : MonoBehaviour
 
     SoundList soundList;
 
-    private void Awake()
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         hp = GetComponent<HP>();
@@ -30,22 +31,27 @@ public class AI : MonoBehaviour
         soundList = GameObject.FindWithTag("MainCamera").GetComponent<SoundList>();
     }
 
-    private void Update()
+    void Update()
     {
-        if (agent.isStopped)
+        if(hp.health > 0)
         {
-            state = StateIA.Attacking;
+            if (agent.isStopped)
+            {
+                state = StateIA.Attacking;
+            }
+            else
+            {
+                state = StateIA.Walking;
+            }
+            animationController.SetFloat("Velocity", agent.velocity.magnitude);
         }
-        else
-        {
-            state = StateIA.Walking;
-        }
-
-        animationController.SetFloat("Velocity", agent.velocity.magnitude);
 
         if (hp.health <= 0)
         {
-            Destroy(gameObject);
+            agent.isStopped = true;
+            //agent.enabled = false;
+            state = StateIA.Dead;
+            animationController.SetTrigger("Dead");
         }
     }
 
@@ -54,4 +60,10 @@ public class AI : MonoBehaviour
         hpPlayer.HealthDown(damage);
         soundList.PlaySound(SoundList.SoundFX.EnemyAttack);
     }
+
+    public void Dead()
+    {
+        Destroy(gameObject, 1.6f);
+    }
+
 }

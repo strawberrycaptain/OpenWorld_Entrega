@@ -6,8 +6,10 @@ public class HP : MonoBehaviour
 {
     public float health;
 
-    public SoundList.SoundFX damageSoundFx;
+
     SoundList soundList;
+
+    public SkinnedMeshRenderer render;
 
     void Awake()
     {
@@ -18,7 +20,36 @@ public class HP : MonoBehaviour
     {
         health = health - damage;
 
-        soundList.PlaySound(damageSoundFx);
+
+        if (gameObject.tag == "Enemy")
+        {
+            soundList.PlaySound(SoundList.SoundFX.EnemyDamage);
+            StartCoroutine(Flash());
+         
+        }
+            
+
+        if (gameObject.tag == "Player")
+            soundList.PlaySound(SoundList.SoundFX.PlayerDamage);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (gameObject.tag == "Player")
+            health = health + 50;
+
+    }
+
+    IEnumerator Flash()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            render.material.EnableKeyword("_EMISSION");
+            yield return new WaitForSeconds(0.05f);
+            render.material.DisableKeyword("_EMISSION");
+            yield return new WaitForSeconds(0.05f);
+            //não funciona
+        }
 
     }
 }

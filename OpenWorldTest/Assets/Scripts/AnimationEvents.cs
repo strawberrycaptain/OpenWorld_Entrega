@@ -5,7 +5,8 @@ using UnityEngine;
 public class AnimationEvents : MonoBehaviour
 {
     public AI ai;
-    public Sword player;
+    public SwordAttack player;
+    public ThirdPersonWalk playerDead;
 
     SoundList soundList;
 
@@ -36,11 +37,21 @@ public class AnimationEvents : MonoBehaviour
 
     public void Event_SFX4()
     { 
-    soundList.PlaySound(SoundList.SoundFX.PlayerAttackSound);
+        soundList.PlaySound(SoundList.SoundFX.PlayerAttackSound);
     }
 
     public void Event_SFX5()
     {
         soundList.PlaySound(SoundList.SoundFX.Spell);
+    }
+
+    public void Event_Death()
+    {
+        ai.Dead();
+    }
+
+    public void Event_Death2()
+    {
+        playerDead.gameOver();
     }
 }

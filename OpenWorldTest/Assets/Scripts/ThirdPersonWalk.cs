@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ThirdPersonWalk : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class ThirdPersonWalk : MonoBehaviour
 
     SoundList soundList;
 
+    HP hp;
+
     void Awake()
     {
         transf = GetComponent<Transform>();
@@ -34,8 +37,29 @@ public class ThirdPersonWalk : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         swordCollider.enabled = false;
         soundList = GameObject.FindWithTag("MainCamera").GetComponent<SoundList>();
+        hp = GetComponent<HP>();
     }
 
+    void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "MainGame")
+        {
+            if (CommonValues.ShrinePlayerPosition.magnitude > 0)
+            {
+                transform.position = CommonValues.ShrinePlayerPosition;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (hp.health <= 0)
+        {
+            animator.SetTrigger("PlayerDead");
+            rb.isKinematic = true;
+            enabled = false;
+        }
+    }
     void FixedUpdate()
     {
 
@@ -64,8 +88,8 @@ public class ThirdPersonWalk : MonoBehaviour
         if (attackPress && !isJumping && !swordCollider.enabled)
         {
             animator.SetTrigger("Attacked");
-            swordCollider.enabled = true;
-            Invoke("DisableSwordCollision", 0.3f);
+            Invoke("EnableSwordCollision", 0.3f);
+            Invoke("DisableSwordCollision", 0.6f);
         }
 
         //Spell!!
@@ -115,6 +139,11 @@ public class ThirdPersonWalk : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
+
+     void EnableSwordCollision()
+     {
+         swordCollider.enabled = true;
+     }
     void DisableSwordCollision()
     {
         swordCollider.enabled = false;
@@ -123,5 +152,10 @@ public class ThirdPersonWalk : MonoBehaviour
     void DisableSpell()
     {
         usedSpell = false;
+    }
+
+    public void gameOver()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
